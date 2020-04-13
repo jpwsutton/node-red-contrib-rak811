@@ -1,0 +1,35 @@
+{
+  "name": "node-red-contrib-rak811",
+  "version": "0.0.1",
+  "description": "A Node-RED Node to communicate with a RAK 811 LoRa Raspberry Pi Module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpwsutton/node-red-contrib-rak811.git"
+  },
+  "keywords": [
+    "rak811",
+    "node-red",
+    "lora",
+    "raspberry",
+    "pi"
+  ],
+  "author": "James Sutton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpwsutton/node-red-contrib-rak811/issues"
+  },
+  "homepage": "https://github.com/jpwsutton/node-red-contrib-rak811#readme",
+  "node-red": {
+    "nodes": {
+      "rak811": "rak811.js",
+      "rak811-config": "rak811Config.js"
+    }
+  },
+  "dependencies": {
+    "serial-at": "0.0.3"
+  }
+}

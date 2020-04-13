@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    RED.nodes.registerType('rak811',{
+        category: 'network',
+        color: '#C7E9C0',
+        defaults: {
+            name: {value:""},
+            config: {type:"rak811-config",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        inputLabels: "payload to transmit",
+        outputLabels: "received downlink messages",
+        icon: "bridge-dash.png",
+        label: function() {
+            return this.name||"rak811";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="rak811">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-config">RAK 811 Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="rak811">
+    <p>A node that sends and recieves messages over LoRaWAN or LoRaP2P networks using the RAK811 chipset.</p>
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">Number | String | Buffer</span></dt>
+            <dd> the payload of the message to publish. </dd>
+            <dt class="optional">confirm <span class="property-type">boolean</span></dt>
+            <dd> regular or confirmed send.</dd>
+            <dt class="optional">port <span class="property-type">integer</span></dt>
+            <dd> port number to use (1-223).</dd>
+        </dl>
+    <h3>Outputs</h3>
+        <p>If a downlink message is recieved, the following properties will be in the message.</p>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">buffer</span></dt>
+            <dd>The Data contained in the downlink message.</dd>
+            <dt>port <span class="property-type">integer</span></dt>
+            <dd>The port number.</dd>
+            <dt>rssi <span class="property-type">double</span></dt>
+            <dd>The RSSI (Recieved Signal Strength Indicator).</dd>
+            <dt>snr <span class="property-type">double</span></dt>
+            <dd>The SNR (Signal to Noise Ratio).</dd>
+            <dt>len <span class="property-type">integer</span></dt>
+            <dd>The length of the data received.</dd>
+        </dl>
+
+    <h3>Details</h3>
+        <p><code>msg.payload</code> is used as the payload of the transmitted message.
+            If it contains a String or Number it will be converted into a Buffer before being sent.
+            If it contains a binary Buffer the message will be transmitted as is.</p>
+
+
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://github.com/RAKWireless/RAK811/blob/master/Software%20Development/RAK811%C2%A0Lora%C2%A0AT%C2%A0Command%C2%A0V1.4.pdf">RAK811 1.4 API Specification</a></li>
+        <li><a href="https://github.com/jpwsutton/node-red-contrib-rak811">Github</a> - the nodes github repository.</li>
+        <li><a href="https://www.thethingsnetwork.org/docs/devices/bytes.html">Working with Bytes</a> - The Things Network tutorial on how best to pack your payload.</li>
+
+    </ul>
+
+
+
+</script>
