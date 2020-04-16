@@ -25,11 +25,10 @@
   "homepage": "https://github.com/jpwsutton/node-red-contrib-rak811#readme",
   "node-red": {
     "nodes": {
-      "rak811": "rak811.js",
-      "rak811-config": "rak811Config.js"
+      "rak811": "rak811.js"
     }
   },
   "dependencies": {
-    "serial-at": "0.0.3"
+    "serialport": "^8.0.7"
   }
 }

@@ -4,12 +4,12 @@
         color: '#C7E9C0',
         defaults: {
             name: {value:""},
-            config: {type:"rak811-config",required:true}
+            config: {type:"rak811-config",required:true},
+
         },
         inputs:1,
-        outputs:1,
+        outputs:0,
         inputLabels: "payload to transmit",
-        outputLabels: "received downlink messages",
         icon: "bridge-dash.png",
         label: function() {
             return this.name||"rak811";
@@ -39,21 +39,7 @@
             <dt class="optional">port <span class="property-type">integer</span></dt>
             <dd> port number to use (1-223).</dd>
         </dl>
-    <h3>Outputs</h3>
-        <p>If a downlink message is recieved, the following properties will be in the message.</p>
-        <dl class="message-properties">
-            <dt>payload <span class="property-type">buffer</span></dt>
-            <dd>The Data contained in the downlink message.</dd>
-            <dt>port <span class="property-type">integer</span></dt>
-            <dd>The port number.</dd>
-            <dt>rssi <span class="property-type">double</span></dt>
-            <dd>The RSSI (Recieved Signal Strength Indicator).</dd>
-            <dt>snr <span class="property-type">double</span></dt>
-            <dd>The SNR (Signal to Noise Ratio).</dd>
-            <dt>len <span class="property-type">integer</span></dt>
-            <dd>The length of the data received.</dd>
-        </dl>
-
+    
     <h3>Details</h3>
         <p><code>msg.payload</code> is used as the payload of the transmitted message.
             If it contains a String or Number it will be converted into a Buffer before being sent.
@@ -71,4 +57,220 @@
 
 
 
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('rak811Out',{
+        category: 'network',
+        color: '#C7E9C0',
+        defaults: {
+            name: {value:""},
+            config: {type:"rak811-config",required:true},
+
+        },
+        inputs:0,
+        outputs:1,
+        outputLabels: "received downlink messages",
+        icon: "bridge-dash.png",
+        label: function() {
+            return this.name||"rak811Out";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="rak811Out">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-config">RAK 811 Config</label>
+        <input type="text" id="node-input-config">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="rak811Out">
+    <p>A node that recieves downlink messages over LoRaWAN or LoRaP2P networks using the RAK811 chipset.</p>
+    
+    <h3>Outputs</h3>
+        <p>If a downlink message is recieved, the following properties will be in the message.</p>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">buffer</span></dt>
+            <dd>The Data contained in the downlink message.</dd>
+            <dt>port <span class="property-type">integer</span></dt>
+            <dd>The port number.</dd>
+            <dt>rssi <span class="property-type">double</span></dt>
+            <dd>The RSSI (Recieved Signal Strength Indicator).</dd>
+            <dt>snr <span class="property-type">double</span></dt>
+            <dd>The SNR (Signal to Noise Ratio).</dd>
+            <dt>len <span class="property-type">integer</span></dt>
+            <dd>The length of the data received.</dd>
+        </dl>
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://github.com/RAKWireless/RAK811/blob/master/Software%20Development/RAK811%C2%A0Lora%C2%A0AT%C2%A0Command%C2%A0V1.4.pdf">RAK811 1.4 API Specification</a></li>
+        <li><a href="https://github.com/jpwsutton/node-red-contrib-rak811">Github</a> - the nodes github repository.</li>
+        <li><a href="https://www.thethingsnetwork.org/docs/devices/bytes.html">Working with Bytes</a> - The Things Network tutorial on how best to pack your payload.</li>
+
+    </ul>
+
+
+
+</script>
+
+<script type="text/x-red" data-template-name="rak811-config">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-mode"><i class="fa fa-globe"></i> Mode</label>
+        <select id="node-config-input-mode" style="width:200px !important">
+            <option value="lorawan">LoRaWAN</option>
+            <!-- TODO<option value="lorap2p">LoRaP2P</option>-->
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-band"><i class="fa fa-globe"></i> Band</label>
+        <select id="node-config-input-band" style="width:200px !important">
+            <option value="EU868">EU868</option>
+            <option value="US915">US915</option>
+            <option value="AU915">AU915</option>
+            <option value="KR920">KR920</option>
+            <option value="AS923">AS923</option>
+            <option value="IN865">IN865</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-devEui">Default Device EUI</label>
+        <input type="text" id="node-input-devEui" disabled />
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-conMode"><i class="fa fa-globe"></i> Connection Mode</label>
+        <select id="node-config-input-conMode" style="width:200px !important">
+            <option value="OTAA">OTAA (Over The Air Activation)</option>
+            <option value="ABP">ABP (Activation By Personalisation)</option>
+        </select>
+        <div id="node-config-input-con-mode-otaa" class="show">
+            <!-- OTAA Only-->
+            <div class="form-row">
+                <div class="form-row">
+                    <label for="node-config-input-appEUI"><i class="fa fa-user"></i> App EUI</label>
+                    <input type="text" id="node-config-input-appEUI" placeholder="0000000000000000">
+                </div>
+                <div class="form-row">
+                    <label for="node-config-input-appKey"><i class="fa fa-user"></i> App Key</label>
+                    <input type="text" id="node-config-input-appKey" placeholder="00000000000000000000000000000000">
+                </div>
+            </div>
+        </div>
+        <div id="node-config-input-con-mode-abp" class="hide">
+            <!-- ABP Only-->
+            <div class="form-row">
+                <div class="form-row">
+                    <label for="node-config-input-appsKey"><i class="fa fa-user"></i> App Session Key</label>
+                    <input type="text" id="node-config-input-appsKey" placeholder="00000000000000000000000000000000">
+                </div>
+                <div class="form-row">
+                    <label for="node-config-input-devAddr"><i class="fa fa-user"></i> Device Address</label>
+                    <input type="text" id="node-config-input-devAddr" placeholder="0000000000000000">
+                </div>
+                <div class="form-row">
+                    <label for="node-config-input-nwksKey"><i class="fa fa-user"></i> Network Session Key</label>
+                    <input type="text" id="node-config-input-nwksKey" placeholder="00000000000000000000000000000000">
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+    
+
+    <!-- Other Things
+    <div class="form-row">
+        <label for="node-config-input-dev-addr"><i class="fa fa-user"></i> Device Address</label>
+        <input type="text" id="node-config-input-dev-addr" placeholder="00000000">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-dev-eui"><i class="fa fa-user"></i> Device EUI</label>
+        <input type="text" id="node-config-input-dev-eui" placeholder="0000000000000000">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-adr"><i class="fa fa-user"></i> ADR</label>
+        <input type="checkbox" id="node-config-input-adr" >
+    </div>
+    <div class="form-row">
+        <label for="node-config-pwr-level"><i class="fa fa-globe"></i> Power Level</label>
+        <select id="node-config-pwr-level" style="width:200px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-data-rate"><i class="fa fa-globe"></i> Data Rate</label>
+        <select id="node-config-input-band" style="width:200px !important">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-public-net"><i class="fa fa-user"></i> Public Net</label>
+        <input type="checkbox" id="node-config-input-public-net" >
+    </div>
+-->
+    
+
+
+    
+   
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('rak811-config',{
+        category: 'config',
+        defaults: {
+            name: {value: ""},
+            mode: {value:"lorawan"},
+            band: {value:"EU868"},
+            devEui: {value: ""},
+            conMode: {value: "OTAA"},
+            appEUI: {value: ""},
+            appKey: {value: ""},
+            appsKey: {value: ""},
+            devAddr: {value: ""},
+            nwksKey: {value: ""}
+        },
+        label: function() {
+            return this.name || "RAK811 Config";
+        },
+        oneditprepare: function() {
+            function updateConnectModeOptions() {
+                if ($("#node-config-input-conMode").val() === "OTAA") {
+                    $("#node-config-input-con-mode-otaa").show();
+                    $("#node-config-input-con-mode-abp").hide();
+                    
+                } else {
+                    $("#node-config-input-con-mode-abp").show();
+                    $("#node-config-input-con-mode-otaa").hide();
+                }
+            }
+            updateConnectModeOptions();
+            $("#node-config-input-conMode").on("change",function() {
+                updateConnectModeOptions();
+            });
+        }
+    });
+</script>
+<script type="text/x-red" data-help-name="rak811-config">
+    <p>goTenna Mesh Config Help Text</p>
 </script>
